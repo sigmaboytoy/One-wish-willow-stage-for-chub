@@ -43,3 +43,6 @@ state_schema:
         type: object
       active:
         type: object
+
+github_path: 'https://github.com/sigmaboytoy/One-wish-willow-stage-for-chub'
+
