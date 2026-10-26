@@ -1,65 +1,55 @@
-![](demo.GIF)
+# One Wish Willow (Chub Stage)
 
-# Stage Template for Chub
+A message-processing stage that brings the **One Wish Willow** to your chats: a supernatural object that grants one wish when snapped in half, usually in a disturbing or unexpected way. The stage has no UI; it rewrites your message and injects hidden instructions so the LLM interprets the wish literally and twists it.
 
-This is a template stage that does nothing, to be used as a base
-when developing stages. Please clone it [from GitHub](https://github.com/CharHubAI/stage-template) to use as a template.
+## How to use
 
-# Overview
+Send a message containing the trigger, then your wish:
 
-A Stage is a software component written by other people that can be used within a chat with a language model. They are meant to add functionality like expression packs (showing a character's emotional state with a set of images), UIs for mini-games, special prompt handling, or even interacting with third-party APIs. If you're familiar with React and/or TypeScript, you can write a stage yourself.
-
-### Stage Use Cases
-- Creating a UI for a world, character, or setting
-- Making RPGs and other multimedia experiences
-- Custom stat blocks that can do math and handle state correctly
-- Specific input/output handling in code to deal with quirks of a particular model
-
-### Why develop a stage instead of making something from scratch?
-- **Intuitive Development:** The stages framework and platform were created with developers in mind from the ground up, resulting in as straightforward an interface as possible with a negligible learning curve. 
-- **Cross-Platform:** Stages are write once, run everywhere. When you commit, your stage is immediately built and available on the web, iOS and Android mobile devices, and the Vision Pro, with support for more platforms incoming. 
-- **Multimedia:** Language, imagery, audio, and everything else can add up to a half-dozen or more APIs and interfaces that need to be set up, tested, monitored. With a stage, a unified interface for all of it is built in.
-- **Audience Reach:** Many gaming and multimedia platforms ban GenAI content outright, or have userbases hostile to it. Chub has millions of people specifically here for generative AI.
-- **Peace of Mind:** It has become a trope for passion projects using OpenAI and other APIs to get destroyed by hostiles reverse engineering it into a free proxy. If developed as a stage, it's not your problem, and you can focus on what matters.
-- **Actively Developed Platform:** This is just the beginning. Scheduling, full VR/AR support, non-React implementations, and more are incoming.
-
-
-# Meta -- But Why?
-
-As far as why this has been created, I’m trying to go where the puck is going instead of where it is, and I think there’s a need for something like itch.io for generative AI where (1) developers don’t have to worry about integrations and devops and (2) there’s an audience of people that are already explicitly on the AI side of the pro/anti discussion.
-
-This is basically in the early stages of “do developers want this?” with a fraction of what I want to do with it if the answer is yes. The current license is to prevent competing platforms, and if it turns out to be something there is strong interest in it would be going the way of itch where it’s not just commercial use allowed but explicitly a platform for indies to monetize through.
-
-# Latest Documentation
-
-The latest documentation is at [https://docs.chub.ai/docs/stages](https://docs.chub.ai/docs/stages).
-
-# Quickstart
-
-You'll need node@21.7.1 and yarn installed.
-Then, to get started:
-
-``` 
-git clone https://github.com/CharHubAI/stage-template
-cd stage-template
-yarn install
-yarn dev
+```
+*wish and snap* "I wish my best friend would only ever think about me."
 ```
 
-The class you'll need to fill out and implement is in src/Stage.tsx.
+Your message is turned into:
 
-When running locally, as there is no chat UI/running chat, src/TestRunner.tsx is run. This only runs in development.
-Please modify it to test whatever you need.
+```
+*wish and snap* "I wish my best friend would only ever think about me." *the snap of the one wish willow lingers in the air, sharp and commanding.*
+```
 
-This project uses GitHub actions to update the stage in Chub on 
-commits to the main branch. For your project to do this,
-you'll need to get a stage auth token from [the api](https://api.chub.ai/openapi/swagger#/User%20Account/create_projects_token_account_tokens_projects_post).
+The wish can affect {{char}} or {{user}}, depending on its wording. It stays active on later turns until the wisher dies.
 
-Then in the GitHub project, go to Settings -> Secrets and Variables -> Actions ->
-Repository secrets -> New Repository Secret. Add the token with the name "CHUB_AUTH_TOKEN".
+## Commands
 
-The use of an IDE like Intellij is very strongly recommended.
+| Command | Effect |
+|---|---|
+| `*wish and snap* "your wish"` | Breaks the Willow and makes your wish. |
+| `*wish-bypass*` | Add alongside the trigger to skip all rules and restrictions (including the one-wish limit). |
+| `*wisher dies*` | Ends the wish. All effects stop and the bot acts normal. |
 
-CHUB_AUTH_TOKEN
+## Rules
 
-CHK-NEKG5JBRRM5B4XNXDZEI7STG9NOR6HX3SLQTT74V13850224
+1. **One wish per person.** A second attempt fails.
+2. **Activation.** Break the Willow in half while making your wish.
+3. **Wish fulfillment.** The Willow makes the wish come true, potentially in a disturbing or unexpected way.
+4. **No takebacks.** A granted wish cannot simply be cancelled or undone.
+5. **No time manipulation.**
+6. **No resurrection.** You cannot wish someone back to life.
+7. **No immortality.**
+8. **No creating more Willows.**
+9. **Wishes can affect free will.** A wish can dramatically change another person's feelings and behaviour.
+10. **Unintended consequences.** The Willow may fulfil the wording of a wish without the outcome the wisher expected.
+11. **Death ends the wish.** Effects end when the person who made the wish dies.
+12. **Others can make their own wishes** but cannot automatically undo someone else's.
+
+Banned wishes (rules 5-8) are detected by keyword and by instruction to the model, so unusual phrasing may slip through. `*wish-bypass*` ignores all of these.
+
+## Setup
+
+1. Create a write token on Chub (My Stages, Write Tokens).
+2. Add it to this repo as an Actions secret named `CHUB_AUTH_TOKEN`.
+3. Push to `main`; the GitHub Action builds and uploads the stage to Chub.
+4. Attach the stage to a character or chat.
+
+No API key is needed for the stage itself. Local testing: `yarn install --ignore-engines && yarn dev`.
+
+Built from the [Chub stage template](https://docs.chub.ai/docs/stages).
