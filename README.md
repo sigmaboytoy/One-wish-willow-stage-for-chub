@@ -53,3 +53,5 @@ Banned wishes (rules 5-8) are detected by keyword and by instruction to the mode
 No API key is needed for the stage itself. Local testing: `yarn install --ignore-engines && yarn dev`.
 
 Built from the [Chub stage template](https://docs.chub.ai/docs/stages).
+
+https://unearthly-poltergeist-r7v5ppwg4r2xjgq.github.dev/
