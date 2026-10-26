@@ -1,0 +1,45 @@
+# All of these fields are optional, as is this file itself,
+#   in which case these values can be managed in the UI.
+
+# The name of the stage.
+project_name: "One Wish Willow"
+
+# A short tagline to show in search.
+tagline: "Break the Willow. Make one wish. Live with it."
+
+# 'PUBLIC', 'PRIVATE', or 'UNLISTED'.
+# visibility: 'PUBLIC'
+
+# 'ADJACENT' | 'NONE' | 'COVER' | 'FULLSCREEN'
+# 'ADJACENT' is default. The frame will display on the side of the
+#   chat on desktop and above/in the top half of the chat on mobile.
+# 'NONE' will not display, only run.
+# 'COVER' will, indeed, cover the chat history completely,
+#   but leave the text input box.
+# 'FULLSCREEN' will make nothing below the header bar
+#   show except for your stage.
+position: 'NONE'
+
+# Self-explanatory.
+# tags:
+#  - 'Stage'
+#  - 'Admin'
+#  - 'Template'
+#  - 'Base'
+
+# The schema of any user-supplied config.
+# If your stage requires a configuration but has no
+#   defined schema, it won't work.
+
+# The schema of the state that you store.
+# This isn't needed even if you do store state,
+#   and is here more for future use cases to
+#   optimize storage.
+state_schema:
+  message:
+    type: object
+    properties:
+      wishes:
+        type: object
+      active:
+        type: object
