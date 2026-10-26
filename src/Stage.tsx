@@ -1,4 +1,4 @@
-import {ReactElement} from "react";
+import {ReactElement, useState} from "react";
 import {StageBase, StageResponse, InitialData, Message} from "@chub-ai/stages-ts";
 import {LoadResponse} from "@chub-ai/stages-ts/dist/types/load";
 
@@ -114,6 +114,23 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     }
 
     render(): ReactElement {
-        return <div style={{display: 'none'}}/>;
+        // Hidden in production; in local dev, show a tiny tester.
+        if (import.meta.env.MODE !== 'development') return <div style={{display: 'none'}}/>;
+        return <DevTester stage={this}/>;
     }
+}
+
+function DevTester({stage}: {stage: Stage}) {
+    const [text, setText] = useState('*wish and snap* "I wish my friend would only ever think about me."');
+    const [out, setOut] = useState('');
+    const send = async () => {
+        const r = await stage.beforePrompt({content: text, anonymizedId: 'dev-user', isBot: false} as any);
+        setOut(JSON.stringify({modifiedMessage: r.modifiedMessage, systemMessage: r.systemMessage, stageDirections: r.stageDirections}, null, 2));
+    };
+    return <div style={{padding: 16, fontFamily: 'sans-serif', maxWidth: 800}}>
+        <h3>One Wish Willow - local tester</h3>
+        <textarea style={{width: '100%', height: 80}} value={text} onChange={e => setText(e.target.value)}/>
+        <button onClick={send} style={{margin: '8px 0'}}>Send</button>
+        <pre style={{whiteSpace: 'pre-wrap', background: '#eee', padding: 8}}>{out}</pre>
+    </div>;
 }
